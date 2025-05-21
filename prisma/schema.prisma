@@ -26,5 +26,6 @@ model PR {
   weightKg     Float
   bodyweightKg Float?
   prDate       DateTime @default(now())
+  visibility   Boolean  @default(false)
   user         User     @relation(fields: [userId], references: [id])
 }
