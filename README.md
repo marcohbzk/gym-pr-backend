@@ -6,3 +6,12 @@ Generated them in Supabase in my case.
 Inside .env file
 DATABASE_URL=your_database_url
 JWT_SECRET=your_jwt_secret
+
+In this project I use:
+- Express
+- Jest
+- Bcrypt
+- Dotenv
+- Cors
+- Prisma
+- JWT (JsonWebToken)
