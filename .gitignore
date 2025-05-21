@@ -1,4 +1,4 @@
 node_modules
+eslint.config.mjs
 # Keep environment variables out of version control
 .env
-.eslint.config.mjs
