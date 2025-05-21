@@ -10,7 +10,7 @@ router.use(authMiddleware);
 // Create a new PR
 router.post('/', async (req, res) => {
     const userId = req.userId; // Get userId from middleware
-    const { liftType, weightKg, bodyweightKg, prDate } = req.body;
+    const { liftType, weightKg, bodyweightKg, prDate, visibility } = req.body;
     if (!liftType || !weightKg || !bodyweightKg || !prDate)
         return res.status(400).json({error: "All fields are required"});
     try {
@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
                 weightKg,
                 bodyweightKg,
                 prDate: new Date(prDate),
+                visibility,
             },  
         });
         return res.status(201).json(newPr);
@@ -39,6 +40,7 @@ router.get('/', async (req, res) => {
         const prs = await prisma.pR.findMany({
             where: { userId },
             orderBy: [
+                {visibility: 'desc'},
                 {liftType: 'asc'},
                 {prDate: 'desc'}
             ]
@@ -76,7 +78,7 @@ router.get('/:id', async (req, res) => {
 // Update a PR
 router.put('/', async (req, res) => {
     const userId = req.userId;
-    const { id, liftType, weightKg, bodyweightKg, prDate } = req.body;
+    const { id, liftType, weightKg, bodyweightKg, prDate, visibility } = req.body;
     if (!liftType || !weightKg || !bodyweightKg || !prDate)
         return res.status(400).json({error: "All fields are required"});
 
@@ -96,6 +98,7 @@ router.put('/', async (req, res) => {
                 weightKg,
                 bodyweightKg,
                 prDate: new Date(prDate),
+                visibility,
             },  
         });
         return res.status(201).json(updatedPr);

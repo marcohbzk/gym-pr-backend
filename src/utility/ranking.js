@@ -8,6 +8,48 @@ const prisma = new PrismaClient();
  * @returns {Array} Array of ranking objects: { rank, userId, bestPR }
  */
 
+async function getRankingByLiftTypeAndGym(gymId, liftType) {
+  // Step 1: Get all visible PRs of users from that gym and lift type
+  const prs = await prisma.pR.findMany({
+    where: {
+      user: {
+        gymId: gymId,
+      },
+      liftType: liftType,
+      visibility: true,
+    },
+    include: { user: true },
+    orderBy: { weightKg: "desc" },
+  });
+
+  // Step 2: Reduce to best PR per user
+  const userBestPrMap = new Map();
+  for (const pr of prs) {
+    if (!userBestPrMap.has(pr.userId)) {
+      userBestPrMap.set(pr.userId, pr);
+    }
+  }
+
+  const rankedUsers = Array.from(userBestPrMap.values());
+
+  // Step 3: Sort again to ensure ranking is correct
+  rankedUsers.sort((a, b) => b.weightKg - a.weightKg);
+
+  // Step 4: Assign rank
+  let rank = 1;
+  let lastWeight = null;
+  rankedUsers.forEach((pr, i) => {
+    if (lastWeight !== null && pr.weightKg < lastWeight) {
+      rank = i + 1;
+    }
+    pr.rank = rank;
+    lastWeight = pr.weightKg;
+  });
+
+  return rankedUsers;
+}
+
+
 async function getRankingByLiftType(liftType){
     // Step 1: Get all PRs for the category where visibility = true
     const prs = await prisma.pR.findMany({
@@ -50,4 +92,7 @@ async function getRankingByLiftType(liftType){
     return rankedUsers;
 }
 
-module.exports = { getRankingByLiftType };
+module.exports = { 
+    getRankingByLiftType,
+    getRankingByLiftTypeAndGym
+ };
