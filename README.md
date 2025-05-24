@@ -4,7 +4,7 @@ _Elevate Your Fitness Journey with Seamless Tracking and Compete with Your Frien
 
 [![Last Commit](https://img.shields.io/github/last-commit/marcohbzk/gym-pr-backend)](https://github.com/marcohbzk/gym-pr-backend)
 [![JavaScript](https://img.shields.io/badge/language-JavaScript-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![License: GPL v3](https://img.shields.io/github/license/marcohbzk/gym-pr-backend)](./LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](./LICENSE)
 
 > Built with the tools and technologies:
 
